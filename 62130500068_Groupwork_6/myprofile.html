@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic Vue Js - HelloWorld App</title>
+
+  <!-- https://google.github.io/material-design-icons/#icon-font-for-the-web -->
+  <!-- Using via Google Web Fonts -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+  <!-- https://tailwindcss.com/docs/installation -->
+  <!-- Using Tailwind via CDN -->
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+
+  <!-- https://v3.vuejs.org/guide/installation.html#release-notes -->
+  <!-- Vue CDN -->
+  <script src="https://unpkg.com/vue@next"></script>
+
+  <!-- Validate.js-->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
+
+</head>
+
+<body>
+  <div id="app" class="p-8">
+    <div class="object-fit bg-fixed bg-blue-300">
+      <div class="container flex justify-center py-20">
+        <div class="p-3 bg-white rounded-xl max-w-2xl hover:shadow">
+          <div class="flex justify-between w-full"> <img v-bind:src="image" width="150" class="rounded-lg">
+            <div class="ml-2">
+              <div class="p-3">
+                <h3 class="text-2xl text-yellow-500 font-semibold">{{firstname}} {{lastname}}</h3> 
+                <span class="text-yellow-300 font-medium">{{edu}}</span>
+              </div>
+              <div class="flex justify-between items-center p-3 bg-gray-200 rounded-lg">
+                <div class="mr-3"> <span class="text-gray-400 block">Post</span> <span
+                    class="font-bold text-red-600 text-xl">{{age}}</span> </div>
+                <div class="mr-3"> <span class="text-gray-400 block">Followers</span> <span
+                    class="font-bold text-red-600 text-xl">{{follower_count}}</span> </div>
+                <div> <span class="text-gray-400 block">Ratings</span> <span
+                    class="font-bold text-red-600 text-xl">{{rating}}</span> </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-between items-center mt-2 gap-2">
+
+            <form @submit.prevent="checkForm">
+
+              <div>
+                <p v-if="errors" class="text-red-500">
+                  <b>Please correct the following error(s):</b>
+                  <ul>
+                    <li v-for="error in errors" class="text-red-500">{{ error }}</li>
+                  </ul>
+                </p>
+              </div>
+
+              <!-- Name Info -->
+              <div class="flex flex-row gap-4">
+                <div class="flex flex-col">
+                  <label for="firstname" class="text-sm leading-7 text-gray-600">Firstname</label>
+                  <input type="text" id="firstname" v-model="firstname" name="firstname"
+                    class="bg-gray-100 rounded px-4 py-2 mb-4">
+                </div>
+
+                <div class="flex flex-col">
+                  <label for="lastname" class="text-sm leading-7 text-gray-600">Lastname</label>
+                  <input type="text" id="lastname" v-model="lastname" name="lastname"
+                    class="bg-gray-100 rounded px-4 py-2 mb-4">
+                </div>
+              </div>
+
+              <!-- Appearance Info -->
+              <div class="flex flex-row gap-4">
+                <div class="flex flex-col">
+                  <label for="age" class="text-sm leading-7 text-gray-600">Age</label>
+                  <input type="text" id="age" v-model="age" name="age" class="bg-gray-100 rounded px-4 py-2 mb-4">
+                </div>
+
+                <div class="flex flex-col">
+                  <label class="text-sm leading-7 text-gray-600">Gender</label>
+                  <div class="flex flex-row pt-2 space-x-2">
+                    <input type="radio" id="Male" v-model="gender" name="gender" value="M"
+                      class="bg-gray-100 rounded px-4 py-2 mb-4">
+                    <label for="Male">Male</label>
+                    <input type="radio" id="Female" v-model="gender" name="gender" value="F"
+                      class="bg-gray-100 rounded px-4 py-2 mb-4">
+                    <label for="Female">Female</label>
+                    <input type="radio" id="none" v-model="gender" name="gender" value="NA"
+                      class="bg-gray-100 rounded px-4 py-2 mb-4">
+                    <label for="Not_Answer">Not Answer</label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Connection Info -->
+              <div class="flex flex-row gap-4">
+                <div class="flex flex-col">
+                  <label for="email" class="text-sm leading-7 text-gray-600">Email</label>
+                  <input type="text" id="email" v-model="email" name="email" 
+                    class="bg-gray-100 rounded px-4 py-2 mb-4">
+                </div>
+
+                <div class="flex flex-col">
+                  <label for="phone"class="text-sm leading-7 text-gray-600">Phone Number</label>
+                    <input type="text" id="phone" v-model="phone" name="phone" 
+                      class="bg-gray-100 rounded px-4 py-2 mb-4">
+                </div>
+              </div>
+
+              <!-- career -->
+              <div class="flex flex-col col-span-2">
+                <label for="chosenCareer"class="text-sm leading-7 text-gray-600">Career</label>
+                    <select id="chosenCareer" v-model="chosenCareer" name="chosenCareer" class="bg-gray-100 rounded px-4 py-2 mb-4">
+                    <option v-for="career in career_lists" :value="career.career_id">
+                        {{career.career_name}}
+                    </option>
+              </div>
+
+              <!-- Submit Button -->
+              <div >
+                <input type="submit" value="Submit" class="px-8 py-2 text-white bg-green-500 rounded-lg hover:bg-green-600 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2">
+              </div>
+
+            </form>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- my main.js -->
+  <script src="./profile.js"></script>
+
+  <script>
+    const mountedApp = app.mount('#app')
+  </script>
+
+</body>
+
+</html>
